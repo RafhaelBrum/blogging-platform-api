@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createPost } from "../models/postModel";
+import { createPost, getAllPosts } from "../models/postModel";
 import { PostInput } from "../types/post";
 import validateData from "../utils/validator";
 
@@ -15,6 +15,18 @@ export async function createPostHandler(req: Request, res: Response) {
         const post = await createPost(data);
         res.status(201).json(post);
         return;
+    } catch (err) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+export async function getAllPostsHandler(req: Request, res: Response) {
+    try {
+        const term = req.query.term as string | undefined;
+
+        const posts = await getAllPosts(term);
+        res.status(200).json(posts);
+
     } catch (err) {
         res.status(500).json({ error: 'Internal server error' });
     }
