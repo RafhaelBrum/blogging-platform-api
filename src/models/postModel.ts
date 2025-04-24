@@ -44,3 +44,12 @@ export async function updatePost(id: number, data: PostInput) {
     console.log(res.rows[0]);
     return res.rows[0];
 };
+
+export async function deletePost(id: number) {
+    const query = 'DELETE FROM posts WHERE ID = $1 RETURNING *';
+    const values = [id];
+
+    const res = await pool.query(query, values);
+    console.log(res.rows[0]);
+    return res.rows[0];
+};
