@@ -25,3 +25,12 @@ export async function getAllPosts(term?: string) {
         return res.rows;
     }
 };
+
+export async function getPostById(id: number) {
+    const query = 'SELECT * FROM posts WHERE ID = $1'
+    const values = [id];
+
+    const res = await pool.query(query, values);
+    console.log(res.rows);
+    return res.rows[0];
+}
