@@ -1,3 +1,4 @@
+import { Query } from 'pg';
 import pool from '../db';
 import { PostInput } from '../types/post';
 
@@ -8,4 +9,19 @@ export async function createPost(data: PostInput) {
 
     const res = await pool.query(query, values);
     console.log(res.rows[0]);
-}
+};
+
+export async function getAllPosts(term?: string) {
+    if (term) {
+        const query = 'SELECT * FROM posts WHERE title ILIKE $1 OR content ILIKE $1 OR category ILIKE $1';
+        const values = [`%${ term }%`];
+        const res = await pool.query(query, values);
+        console.log(res.rows);
+        return res.rows;
+    }
+    else {
+        const res = await pool.query('SELECT * FROM posts');
+        console.log(res.rows);
+        return res.rows;
+    }
+};
