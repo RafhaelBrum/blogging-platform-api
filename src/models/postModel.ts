@@ -31,6 +31,16 @@ export async function getPostById(id: number) {
     const values = [id];
 
     const res = await pool.query(query, values);
-    console.log(res.rows);
+    console.log(res.rows[0]);
     return res.rows[0];
-}
+};
+
+export async function updatePost(id: number, data: PostInput) {
+    const datetime = new Date();
+    const query = 'UPDATE posts SET title = $1, content = $2, category = $3, tags = $4, updated_at = $5 WHERE id = $6 RETURNING *';
+    const values = [data.title, data.content, data.category, data.tags, datetime, id];
+
+    const res = await pool.query(query, values);
+    console.log(res.rows[0]);
+    return res.rows[0];
+};
