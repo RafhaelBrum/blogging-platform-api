@@ -1,4 +1,3 @@
-import { Query } from 'pg';
 import pool from '../db';
 import { PostInput } from '../types/post';
 
